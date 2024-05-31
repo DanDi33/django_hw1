@@ -1,4 +1,61 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<h2>Home!!!</h2>
+
+<!-- Sidebar (Фильтр) -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">Фильтр</div>
+    <form>
+        <div class="mb-3">
+            <select class="form-select" aria-label="Select Category">
+                <option selected>Все категории</option>
+                <option value="1">Технологии</option>
+                <option value="2">Кулинария</option>
+                <option value="3">Фильмы</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <select class="form-select" aria-label="Select Time">
+                <option selected>Все время</option>
+                <option value="1">Сегодня</option>
+                <option value="2">Последняя неделя</option>
+                <option value="3">Последний месяц</option>
+            </select>
+        </div>
+        <div class="d-grid gap-2 mb-5">
+            <button class="btn btn-primary" type="button">Применить</button>
+            <button class="btn btn-secondary" type="button">Сбросить</button>
+        </div>
+    </form>
+</div>
+
+<!-- News Container -->
+<div class="news-container">
+    <!-- News Cards -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card news-card">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Заголовок новости</h5>
+                    <p class="card-text">Описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="card-text"><small class="text-muted">Категория: Технологии</small></p>
+                </div>
+            </div>
+            <div class="card news-card">
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Заголовок новости</h5>
+                    <p class="card-text">Описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="card-text"><small class="text-muted">Категория: Технологии</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Button (Кнопка для показа фильтра на маленьких экранах) -->
+<button class="btn btn-primary filter-btn" id="filterButton">Показать фильтр</button>
+
+<script src="{% static 'js/myscript.js' %}"></script>
 {% endblock content %}
