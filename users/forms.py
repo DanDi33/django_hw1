@@ -5,13 +5,14 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, Button, ButtonHolder, HTML
 from crispy_forms.bootstrap import Modal
 
+from .models import Profile
+
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2',)
-        # labels = ('Имя пользователя', 'email', 'Пароль', 'Подтверждение пароля',)
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -125,4 +126,14 @@ class MySetPasswordForm(SetPasswordForm):
                     css_class='d-grid gap-2 d-md-flex justify-content-md-end',
                 ),
             )
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["email"]
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["avatar"]           
         

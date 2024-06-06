@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import index, home
-from .views import MyLoginView, RegisterView
+from .views import home
+from .views import MyLoginView, RegisterView, MyProfileView
 from .forms import MyPasswordResetForm, MySetPasswordForm
 from django.contrib.auth.views import (LogoutView, 
                                         PasswordResetView, 
@@ -11,7 +11,7 @@ from django.contrib.auth.views import (LogoutView,
 
 urlpatterns = [
     path("",home , name="home"),
-    path("start/", index, name="index"),
+    # path("start/", index, name="index"),
     path("login/", MyLoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page="login"), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
@@ -32,5 +32,6 @@ urlpatterns = [
          PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
          name="password_reset_complete"
          ),
+    path('profile/', MyProfileView.as_view(), name="profile")
     
 ]

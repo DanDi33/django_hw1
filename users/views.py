@@ -6,16 +6,18 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.contrib import messages
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth import login
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 menu = []
 
 def home(request):
     return render(request, "home.html", {'menu': menu, 'title': 'Главная страница'})
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+# def index(request):
+#     return HttpResponse("Hello, world. You're at the polls index.")
 
 class MyLoginView(LoginView):
     redirect_authenticated_user = True
@@ -40,3 +42,17 @@ class RegisterView(FormView):
         if user:
             login(self.request, user)
         return super(RegisterView, self).form_valid(form)
+    
+
+class MyProfileView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    
+    def get(self, request):
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        context = {
+            'user_form': user_form,
+            'profile_form':profile_form
+        }
+
+        return render(request, 'users/profile.html', context) 
