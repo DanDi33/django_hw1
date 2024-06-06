@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.contrib import messages
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from django.contrib.auth import login
 
 menu = []
@@ -20,6 +20,7 @@ def index(request):
 class MyLoginView(LoginView):
     redirect_authenticated_user = True
     template_name = "users/login.html"
+    form_class = LoginForm
 
     def get_success_url(self):
         return reverse_lazy('home')

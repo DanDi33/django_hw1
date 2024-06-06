@@ -1,5 +1,5 @@
 body {
-    background-color: #f3f3f3;
+    background-color: #a4bdb7 !important;
     color: #000;
   }
   .navbar {
@@ -89,6 +89,11 @@ body {
     border: 1px solid #FF4343;
     background: #FF9C9C;
 }
+
+.card-login{
+  max-width:576px;
+  width:80%;
+  }
 
 .center {
   display: flex;
