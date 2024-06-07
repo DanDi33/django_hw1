@@ -11,6 +11,7 @@
                 <form method="POST" class="form-contact" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row mt-2">
+
                         <div class="col-6">
                             {% if user.profile %}
                             <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="img-fluid"
@@ -19,30 +20,25 @@
                         </div>
 
                         <div class="col-6">
-                            <!-- <h2 class="text-center">{{ user.username | title }}</h2> -->
                             <div class="row mt-2">
                                 <div class="col-4">
                                     <p>Логин: </p>
                                 </div>
-                                <!-- <label for="username" class="form-label requiredField"></label> -->
                                 <div class="col-8">
                                     <p class="text-center">{{ user.username }}</p>
                                 </div>
-                                <!-- <p class="text-center" id="username">Логин: {{ user.username }}</p> -->
                             </div>
                             <div class="row mt-2">
                                 <div class="col-4">
                                     <p>E-mail: </p>
                                 </div>
-                                <!-- <label for="username" class="form-label requiredField"></label> -->
                                 <div class="col-8">
                                     <p class="text-center"><a href="mailto:{{user.email}}">{{user.email}}</a></p>
                                 </div>
-                                <!-- <p class="text-center" id="username">Логин: {{ user.username }}</p> -->
                             </div>
-                            <!-- <p class="text-center"><a href="mailto:{{user.email}}">{{user.email}}</a></p> -->
                         </div>
                     </div>
+
                     <hr>
 
                     <div id="div_id_email" class="mb-3">
@@ -50,11 +46,12 @@
                         <input type="email" id="email" name="email" value="{{ user.email }}"
                             class="textinput form-control">
                     </div>
-                    <div id="div_id_avatar" class="mb-3">
 
+                    <div id="div_id_avatar" class="mb-3">
                         <label for="avatar" class="form-label requiredField">Avatar: </label>
                         <input type="file" name="avatar" id="avatar" class="form-control" onchange="previewFile()">
                     </div>
+
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="submit" class="btn btn-primary">Обновить профиль</button>
                     </div>
@@ -67,17 +64,17 @@
 
     function previewFile() {
         var preview = document.querySelector('img');
-        var file    = document.querySelector('#avatar').files[0];
-        var reader  = new FileReader();
+        var file = document.querySelector('#avatar').files[0];
+        var reader = new FileReader();
 
         reader.onloadend = function () {
-        preview.src = reader.result;
+            preview.src = reader.result;
         }
 
         if (file) {
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
         } else {
-        preview.src = "";
+            preview.src = "";
         }
     }
 </script>
