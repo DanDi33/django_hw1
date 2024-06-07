@@ -102,3 +102,9 @@ body {
   justify-content: center;
   min-height: 70vh;
 }
+
+.avatar{
+  max-width: 150px;
+  margin: 0 auto;
+  display: block;
+}
