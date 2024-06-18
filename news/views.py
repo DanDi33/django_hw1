@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Post, Category
 from .forms import NewsForm
+from .filters import PostFilter
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -12,8 +13,12 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 
 def home(request):
-    posts = Post.objects.all()    
-    return render(request, "home.html", {'posts': posts, 'title': 'Главная страница'})
+    posts = Post.objects.all()
+    filter = PostFilter(request.GET, queryset=Post.objects.all()) 
+    if request.method=="POST":
+        print(f"category - {request}")
+        
+    return render(request, "home.html", {'posts': posts, 'filter':filter, 'title': 'Главная страница'})
 
 class ShowPost(DetailView):
     model = Post
@@ -78,6 +83,7 @@ class PostList(LoginRequiredMixin,ListView):
     model = Post
     template_name = "news/posts.html"
     context_object_name = "posts"
+    # filter = PostFilter(self.request.GET, queryset=Post.objects.all())
 
     def get_context_data(self, * ,object_list = None , **kwargs):
         context = super().get_context_data(**kwargs)

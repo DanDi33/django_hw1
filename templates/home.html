@@ -31,6 +31,11 @@
 
 <!-- News Container -->
 <div class="news-container">
+    <form method="post" class="filter-form">
+        {% csrf_token %}
+        {{ filter.form.as_p }}
+        <button type="submit">Применить</button>
+    </form>
     <!-- News Cards -->
     <div class="row justify-content-center">
         <div class="col-md-10">
