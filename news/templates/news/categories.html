@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="news-container">
+    <div class="center">
+        <div class="card card-login m-auto">
+            <div class="card-body">
+                <h5 class="card-title  text-center mb-3">Категории</h5>
+                {% if categories %}
+                <ol class="categories">
+                    {% for category in categories %}
+                    <li>
+                        <div class="row mt-2">
+                            <div class="col-9">
+                                <a href="{% url 'update-category' category.id %}"
+                                    style="text-decoration: none;color: #000;">{{ category.name }}</a>
+                            </div>
+                            <div class="task-controls col-3 card-text d-flex">
+                                <a class="edit px-2 ms-auto" href="{% url 'update-category' category.id %}"><i
+                                    class="bi bi-pencil-square"></i></a>
+                                <a class="edit px-2" href="{% url 'delete-category' category.id %}"><i class="bi bi-trash"></i></a>
+                                
+                            </div>
+                        </div>
+
+                    </li>
+                    {%endfor%}
+                </ol>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'create-category' %}" class="btn btn-primary profile-button">Добавить категорию</a>
+                </div>
+
+                {% else %}
+                <p class="text-center"> У вас нет категорий! <a href="{% url 'create-category' %}">Создать категорию</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

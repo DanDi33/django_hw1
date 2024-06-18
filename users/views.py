@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.http import HttpResponse
@@ -11,10 +11,10 @@ from django.contrib.auth import login
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-menu = []
+# menu = []
 
-def home(request):
-    return render(request, "home.html", {'menu': menu, 'title': 'Главная страница'})
+# def home(request):
+#     return render(request, "home.html", {'menu': menu, 'title': 'Главная страница'})
 
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -56,3 +56,30 @@ class MyProfileView(LoginRequiredMixin, View):
         }
 
         return render(request, 'users/profile.html', context) 
+    
+    def post(self,request):
+        user_form = UserUpdateForm(
+            request.POST, 
+            instance=request.user
+        )
+        profile_form = ProfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance=request.user.profile
+        )
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            
+            messages.success(request,'Your profile has been updated successfully')
+            
+            return redirect('profile')
+        else:
+            context = {
+                'user_form': user_form,
+                'profile_form': profile_form
+            }
+            messages.error(request,'Error updating you profile')
+            
+            return render(request, 'users/profile.html', context)

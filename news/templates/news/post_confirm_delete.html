@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="news-container">
+    <div class="center">
+        <div class="card card-login m-auto">
+            <div class="card-body">
+                <h5 class="card-title  text-center mb-3">Удаление поста</h5>
+                <form method="post" class="form-contact">
+                    {% csrf_token %}
+
+                    <p class="text-center">Вы уверены что хотите удалить "{{post.title}}"?</p>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'posts' %}" class="btn btn-secondary">Отмена</a>
+                        <input type="submit" class="btn btn-primary" value="Удалить">
+                    </div>
+                </form>
+
+            </div>
+            {% endblock content%}

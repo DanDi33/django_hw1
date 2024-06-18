@@ -1,3 +1,18 @@
+:root {
+  /* --color-primary: #ee394c;
+  --color-secondary: #86b7fe;
+  --color-light: #f2f2f2;
+  --color-gray: #ced4da;
+  --color-dark: #212121;
+  --color-white: #ffffff; */
+  --color-error: #e2442f;
+  --color-warning: #ffc900;
+  --color-info: #02a2b9;
+  --color-success: #1ba345;
+  --color-input: #00d1b2;
+   --border-radius: 5px;
+}
+
 body {
     background-color: #a4bdb7 !important;
     color: #000;
@@ -75,19 +90,29 @@ body {
     }
   }
 
-.flash {
-    padding: 15px;
-    border-radius: 10px;
+/* alert */
+.alert {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.alert-error {
+  background-color: var(--color-error);
+  color: var(--color-light);
 }
 
-.flash.success {
-    border: 1px solid #21DB56;
-    background: #AEFFC5;
+.alert-warning {
+  background-color: var(--color-warning);
+  color: var(--color-light);
 }
 
-.flash.error {
-    border: 1px solid #FF4343;
-    background: #FF9C9C;
+.alert-info {
+  background-color: var(--color-info);
+  color: var(--color-light);
+}
+
+.alert-success {
+  background-color: var(--color-success);
+  color: var(--color-light);
 }
 
 .card-login{
@@ -107,4 +132,14 @@ body {
   max-width: 150px;
   margin: 0 auto;
   display: block;
+}
+
+.task-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.task-controls a {
+  color: black;
 }

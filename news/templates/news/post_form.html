@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% crispy example_form example_form.helper %}
+{% block content %}
+<div class="news-container">
+    <div class="center">
+        <div class="card m-auto ">
+            <div class="card-body">
+                <h5 class="card-title  text-center mb-3">
+                    {% if post %} Редактировать {% else %} Добавить {% endif %}новость</h5>
+                <form method="post" novalidate class="form-contact" enctype="multipart/form-data">
+                    {% crispy form %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

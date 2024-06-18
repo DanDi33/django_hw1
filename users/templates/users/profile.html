@@ -64,6 +64,7 @@
 
     function previewFile() {
         var preview = document.querySelector('img');
+        let temp_src = preview.src;
         var file = document.querySelector('#avatar').files[0];
         var reader = new FileReader();
 
@@ -74,7 +75,7 @@
         if (file) {
             reader.readAsDataURL(file);
         } else {
-            preview.src = "";
+            preview.src = temp_src;
         }
     }
 </script>

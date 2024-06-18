@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home
+# from .views import home
 from .views import MyLoginView, RegisterView, MyProfileView
 from .forms import MyPasswordResetForm, MySetPasswordForm
 from django.contrib.auth.views import (LogoutView, 
@@ -10,7 +10,7 @@ from django.contrib.auth.views import (LogoutView,
                                     )
 
 urlpatterns = [
-    path("",home , name="home"),
+    # path("",home , name="home"),
     # path("start/", index, name="index"),
     path("login/", MyLoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page="login"), name='logout'),

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="news-container">
+    <!-- News Cards -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            {% if posts %}
+            {% for post in posts %}
+            <a href="{% url 'update-post' post.id %}" style="text-decoration: none;color: #666;">
+                <div class="card news-card">
+                    <img src="{{post.imagefile.url}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.title}}</h5>
+                        <p class="card-text">{{post.description}}</p>
+                        <p class="card-text d-flex mb-2">
+                            <small class="text-muted">Категория: {{post.category.name}}</small>
+
+                            <small class="ms-auto text-muted">
+                                {{post.created_at|date:"d M Y, H:i"}}
+
+
+                            </small>
+                        </p>
+                        <p class="card-text d-flex">
+                            <small class="ms-auto text-muted">
+                                <a class="edit px-2 ms-auto" href="{% url 'update-post' post.id %}"><i
+                                        class="bi bi-pencil-square"></i></a>
+                                <a class="edit px-2" href="{% url 'delete-post' post.id %}"><i
+                                        class="bi bi-trash"></i></a>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p class="text-center"> У вас нет постов! <a href="{% url 'create-post' %}">Создать пост</a>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
