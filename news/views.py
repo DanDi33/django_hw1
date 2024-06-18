@@ -2,17 +2,28 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Post, Category
 from .forms import NewsForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
-menu = []
-
 def home(request):
-    return render(request, "home.html", {'menu': menu, 'title': 'Главная страница'})
+    posts = Post.objects.all()    
+    return render(request, "home.html", {'posts': posts, 'title': 'Главная страница'})
+
+class ShowPost(DetailView):
+    model = Post
+    template_name = "post.html"
+    # context_object_name = "task"
+
+    def get_queryset(self):
+        base_qs = super(ShowPost,self).get_queryset()
+        print(f"base_qs - {base_qs}")
+        return base_qs
 
 class CategoryList(LoginRequiredMixin,ListView):
     model = Category
@@ -72,7 +83,7 @@ class PostList(LoginRequiredMixin,ListView):
         context = super().get_context_data(**kwargs)
         context['posts'] = context['posts'].filter(user=self.request.user)
         # context['desc'] = "It's only test , no more"
-        print(f"context - {context}")
+        # print(f"context - {context}")
         return context
 
 class CreatePost(LoginRequiredMixin,CreateView):

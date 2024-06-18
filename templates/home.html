@@ -34,22 +34,31 @@
     <!-- News Cards -->
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card news-card">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Заголовок новости</h5>
-                    <p class="card-text">Описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p class="card-text"><small class="text-muted">Категория: Технологии</small></p>
+            {% if posts %}
+            {% for post in posts %}
+            <a href="{% url 'post' post.id %}" style="text-decoration: none;color: #666;">
+                <div class="card news-card">
+                    <img src="{{post.imagefile.url}}" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.title}}</h5>
+                        <p class="card-text">{{post.description}}</p>
+
+                        <p class="card-text d-flex mb-2">
+                            <small class="text-muted">Категория: {{post.category.name}}</small>
+                            <small class="ms-auto text-muted">
+                               Автор: {{post.user}}, {{post.created_at|date:"d M Y, H:i"}}
+                            </small>
+                        </p>
+                    </div>
+                    
                 </div>
-            </div>
-            <div class="card news-card">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Заголовок новости</h5>
-                    <p class="card-text">Описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <p class="card-text"><small class="text-muted">Категория: Технологии</small></p>
-                </div>
-            </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <p class="text-center">На сайте нет постов! <a href="{% url 'login' %}">Авторизуйтесь</a> и добавьте посты!
+            </p>
+            {% endif %}
         </div>
     </div>
 </div>

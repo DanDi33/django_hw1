@@ -27,6 +27,9 @@
 
           {% if request.user.is_authenticated %}
           <li class="nav-item">
+            <a class="btn btn-primary" href="{% url 'create-post' %}">Добавить пост</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'posts' %}">Посты</a>
           </li>
           <li class="nav-item">

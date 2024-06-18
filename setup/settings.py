@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5', 
     'news',
     'django_cleanup.apps.CleanupConfig',
+    'django_filters',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
