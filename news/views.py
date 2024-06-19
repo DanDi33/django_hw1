@@ -13,11 +13,6 @@ from django.utils import timezone
 
 # Create your views here.
 
-# def home(request):
-#     queryset = Post.objects.all()
-#     filter = PostFilter(request.GET, queryset=queryset)        
-#     return render(request, "home.html", {'filter':filter, 'title': 'Главная страница'})
-
 def home(request):
     queryset = Post.objects.all()
     filter = PostFilter(request.GET, queryset=queryset)
@@ -30,7 +25,6 @@ def home(request):
 class ShowPost(DetailView):
     model = Post
     template_name = "post.html"
-    # context_object_name = "task"
 
     def get_queryset(self):
         base_qs = super(ShowPost,self).get_queryset()
@@ -42,22 +36,15 @@ class CategoryList(LoginRequiredMixin,ListView):
     template_name = "news/categories.html"
     context_object_name = "categories"
 
-    # def get_context_data(self, * ,object_list = None , **kwargs: Any):
-    #     context = super().get_context_data(**kwargs)
-    #     context['tasks'] = context['tasks'].filter(user=self.request.category)
-    #     context['desc'] = "It's only test , no more"
-    #     return context
 
 class CreateCategory(LoginRequiredMixin,CreateView):
     model = Category
     fields = ['name']
     success_url = reverse_lazy('categories')
-    # form_class = CreateCategoryForm
-    # template_name = "news/create_category.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "The task was create succesfully !")
+        messages.success(self.request, "The category was create succesfully !")
         return super(CreateCategory,self).form_valid(form)
 
 class UpdateCategory(LoginRequiredMixin,UpdateView):
@@ -66,25 +53,17 @@ class UpdateCategory(LoginRequiredMixin,UpdateView):
     success_url = reverse_lazy('categories')
 
     def form_valid(self, form):
-        messages.success(self.request, "The task was update succesfully !")
+        messages.success(self.request, "The category was update succesfully !")
         return super(UpdateCategory,self).form_valid(form)
     
-    # def get_queryset(self):
-    #     base_qs = super(UpdateCategory,self).get_queryset()
-    #     return base_qs.filter(user = self.request.user)
 
 class DeleteCategory(LoginRequiredMixin,DeleteView):
     model = Category    
     success_url = reverse_lazy('categories')
-    # context_object_name = "task"
 
     def form_valid(self, form):
-        messages.success(self.request, "The task was deleted succesfully !")
+        messages.success(self.request, "The category was deleted succesfully !")
         return super(DeleteCategory, self).form_valid(form)
-    
-    # def get_queryset(self):
-    #     base_qs = super(TaskDelete,self).get_queryset()
-    #     return base_qs.filter(user = self.request.user)
 
 class PostList(LoginRequiredMixin,ListView):
     model = Post
@@ -101,7 +80,6 @@ class PostList(LoginRequiredMixin,ListView):
         context['filter'] = self.filter
         return context
     
-
 class CreatePost(LoginRequiredMixin,CreateView):
     model = Post
     success_url = reverse_lazy('posts')
@@ -109,7 +87,7 @@ class CreatePost(LoginRequiredMixin,CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "The task was create succesfully !")
+        messages.success(self.request, "The post was create succesfully !")
         return super(CreatePost,self).form_valid(form)
     
 class UpdatePost(LoginRequiredMixin,UpdateView):
@@ -118,14 +96,13 @@ class UpdatePost(LoginRequiredMixin,UpdateView):
     form_class = NewsForm
 
     def form_valid(self, form):
-        messages.success(self.request, "The task was update succesfully !")
+        messages.success(self.request, "The post was update succesfully !")
         return super(UpdatePost,self).form_valid(form)
     
 class DeletePost(LoginRequiredMixin,DeleteView):
     model = Post    
     success_url = reverse_lazy('posts')
-    # context_object_name = "task"
 
     def form_valid(self, form):
-        messages.success(self.request, "The task was deleted succesfully !")
+        messages.success(self.request, "The post was deleted succesfully !")
         return super(DeletePost, self).form_valid(form)
