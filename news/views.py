@@ -101,7 +101,8 @@ class CreatePost(LoginRequiredMixin,CreateView):
     
     def dispatch(self, request, *args, **kwargs):
         if not Category.objects.exists():
-            return redirect(reverse_lazy('create_category'))
+            messages.warning(self.request, "Нет категорий. Создайте категорию и повторите попытку создания поста.")
+            return redirect(reverse_lazy('create-category'))
         return super(CreatePost, self).dispatch(request, *args, **kwargs)
     
 class UpdatePost(LoginRequiredMixin,UpdateView):

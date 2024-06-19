@@ -14,12 +14,12 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=255,null=False)
     imagefile = models.ImageField(upload_to="post_images", default="default_news.jpg")
-    description = models.TextField(null=True, blank=True)
-    post = models.TextField(null=True, blank=True)
+    description = models.TextField(null=False, blank=False)
+    post = models.TextField(null=False, blank=False)
     created_at =  models.DateTimeField(auto_now_add=True)
 
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
