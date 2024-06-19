@@ -5,42 +5,40 @@
 <!-- Sidebar (Фильтр) -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">Фильтр</div>
-    <form>
+    <form method="get" class="filter-form">
         <div class="mb-3">
-            <select class="form-select" aria-label="Select Category">
-                <option selected>Все категории</option>
-                <option value="1">Технологии</option>
-                <option value="2">Кулинария</option>
-                <option value="3">Фильмы</option>
+            <select name="category"  id="id_category", class="form-select">
+                <option value="">Все категории</option>
+                {% for category in filter.form.fields.category.queryset %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
             </select>
         </div>
+
         <div class="mb-3">
-            <select class="form-select" aria-label="Select Time">
-                <option selected>Все время</option>
-                <option value="1">Сегодня</option>
-                <option value="2">Последняя неделя</option>
-                <option value="3">Последний месяц</option>
+            <select name="ordering" id="id_ordering" class="form-select">
+                <option value="">Все время</option>
+                {% for key, value in filter.form.fields.ordering.choices %}
+                    <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
             </select>
         </div>
+
         <div class="d-grid gap-2 mb-5">
-            <button class="btn btn-primary" type="button">Применить</button>
-            <button class="btn btn-secondary" type="button">Сбросить</button>
+            <button class="btn btn-primary" type="submit">Применить</button>
+            <a class="btn btn-secondary" href="{% url 'home' %}">Сбросить</a>
         </div>
     </form>
 </div>
 
 <!-- News Container -->
 <div class="news-container">
-    <form method="post" class="filter-form">
-        {% csrf_token %}
-        {{ filter.form.as_p }}
-        <button type="submit">Применить</button>
-    </form>
+
     <!-- News Cards -->
     <div class="row justify-content-center">
         <div class="col-md-10">
-            {% if posts %}
-            {% for post in posts %}
+            {% if filter.qs %}
+            {% for post in filter.qs %}
             <a href="{% url 'post' post.id %}" style="text-decoration: none;color: #666;">
                 <div class="card news-card">
                     <img src="{{post.imagefile.url}}" class="card-img-top" alt="...">
@@ -61,8 +59,10 @@
             </a>
             {% endfor %}
             {% else %}
-            <p class="text-center">На сайте нет постов! <a href="{% url 'login' %}">Авторизуйтесь</a> и добавьте посты!
-            </p>
+            <div class="card news-card">
+                <h4 class="text-center">Постов нет! </h4>
+            </div>
+            
             {% endif %}
         </div>
     </div>

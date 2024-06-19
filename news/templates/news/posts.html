@@ -1,6 +1,34 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
+<!-- Sidebar (Фильтр) -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">Фильтр</div>
+    <form method="get" class="filter-form">
+        <div class="mb-3">
+            <select name="category"  id="id_category", class="form-select">
+                <option value="">Все категории</option>
+                {% for category in filter.form.fields.category.queryset %}
+                    <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <select name="ordering" id="id_ordering" class="form-select">
+                <option value="">Все время</option>
+                {% for key, value in filter.form.fields.ordering.choices %}
+                    <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="d-grid gap-2 mb-5">
+            <button class="btn btn-primary" type="submit">Применить</button>
+            <a class="btn btn-secondary" href="{% url 'home' %}">Сбросить</a>
+        </div>
+    </form>
+</div>
 
 <div class="news-container">
     <!-- News Cards -->
@@ -42,5 +70,10 @@
         </div>
     </div>
 </div>
+
+<!-- Filter Button (Кнопка для показа фильтра на маленьких экранах) -->
+<button class="btn btn-primary filter-btn" id="filterButton">Показать фильтр</button>
+
+<script src="{% static 'js/myscript.js' %}"></script>
 
 {% endblock content %}

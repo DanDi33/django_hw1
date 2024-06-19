@@ -9,16 +9,23 @@ from .filters import PostFilter
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 # Create your views here.
 
+# def home(request):
+#     queryset = Post.objects.all()
+#     filter = PostFilter(request.GET, queryset=queryset)        
+#     return render(request, "home.html", {'filter':filter, 'title': 'Главная страница'})
+
 def home(request):
-    posts = Post.objects.all()
-    filter = PostFilter(request.GET, queryset=Post.objects.all()) 
-    if request.method=="POST":
-        print(f"category - {request}")
-        
-    return render(request, "home.html", {'posts': posts, 'filter':filter, 'title': 'Главная страница'})
+    queryset = Post.objects.all()
+    filter = PostFilter(request.GET, queryset=queryset)
+
+    # Применяем фильтрацию
+    queryset = filter.qs
+
+    return render(request, "home.html", {'filter': filter, 'title': 'Главная страница'})
 
 class ShowPost(DetailView):
     model = Post
@@ -83,14 +90,17 @@ class PostList(LoginRequiredMixin,ListView):
     model = Post
     template_name = "news/posts.html"
     context_object_name = "posts"
-    # filter = PostFilter(self.request.GET, queryset=Post.objects.all())
 
+    def get_queryset(self) :
+        queryset = super().get_queryset() 
+        self.filter = PostFilter(self.request.GET,queryset=queryset)
+        return self.filter.qs
+    
     def get_context_data(self, * ,object_list = None , **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = context['posts'].filter(user=self.request.user)
-        # context['desc'] = "It's only test , no more"
-        # print(f"context - {context}")
+        context['filter'] = self.filter
         return context
+    
 
 class CreatePost(LoginRequiredMixin,CreateView):
     model = Post
