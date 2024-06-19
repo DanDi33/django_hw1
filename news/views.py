@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -8,8 +8,6 @@ from .forms import NewsForm
 from .filters import PostFilter
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
 
 # Create your views here.
 
@@ -44,7 +42,7 @@ class CreateCategory(LoginRequiredMixin,CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "The category was create succesfully !")
+        messages.success(self.request, "Категория успешно создана.")
         return super(CreateCategory,self).form_valid(form)
 
 class UpdateCategory(LoginRequiredMixin,UpdateView):
@@ -53,17 +51,28 @@ class UpdateCategory(LoginRequiredMixin,UpdateView):
     success_url = reverse_lazy('categories')
 
     def form_valid(self, form):
-        messages.success(self.request, "The category was update succesfully !")
+        messages.success(self.request, "Категория успешно обновлена.")
         return super(UpdateCategory,self).form_valid(form)
     
 
 class DeleteCategory(LoginRequiredMixin,DeleteView):
     model = Category    
     success_url = reverse_lazy('categories')
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        
+        # Проверяем наличие постов в категории
+        if Post.objects.filter(category=self.object).exists():
+            messages.error(request, "Невозможно удалить категорию, так как с ней связаны посты.")
+            return redirect(self.success_url)  # Редиректим на список категорий, если есть посты
+        
+        # Если постов нет, вызываем метод delete класса DeleteView
+        response = super(DeleteCategory, self).delete(request, *args, **kwargs)
+        messages.success(request, "Категория успешно удалена.")
+        return response
+    
 
-    def form_valid(self, form):
-        messages.success(self.request, "The category was deleted succesfully !")
-        return super(DeleteCategory, self).form_valid(form)
 
 class PostList(LoginRequiredMixin,ListView):
     model = Post
@@ -90,9 +99,14 @@ class CreatePost(LoginRequiredMixin,CreateView):
         messages.success(self.request, "The post was create succesfully !")
         return super(CreatePost,self).form_valid(form)
     
+    def dispatch(self, request, *args, **kwargs):
+        if not Category.objects.exists():
+            return redirect(reverse_lazy('create_category'))
+        return super(CreatePost, self).dispatch(request, *args, **kwargs)
+    
 class UpdatePost(LoginRequiredMixin,UpdateView):
     model = Post
-    success_url = reverse_lazy('categories')
+    success_url = reverse_lazy('posts')
     form_class = NewsForm
 
     def form_valid(self, form):

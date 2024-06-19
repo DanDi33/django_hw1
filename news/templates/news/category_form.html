@@ -1,34 +1,32 @@
 {% extends 'base.html'%}
-
 {% block content %}
-<div class="news-container">
-    <div class="center">
-        <div class="card card-login m-auto">
-            <div class="card-body">
-                <h5 class="card-title  text-center mb-3">{% if category %} Редактировать {% else %} Создать {% endif %}категорию</h5>
-                <form method="post" novalidate class="form-contact">
-                    {% csrf_token %}
-                    <div id="div_id_name" class="mb-3">
-                        <label for="id_name" class="form-label requiredField">Категория: </label>
-                        <input type="text" name="name" maxlength="255" required="" id="id_name" class="textinput form-control" {% if category %} value="{{form.name.value}}" {% endif %}>
-                    </div>
 
-                    {% for field in form %}
+<div class="center">
+    <div class="card card-login m-auto">
+        <div class="card-body">
+            <h5 class="card-title  text-center mb-3">{% if category %} Редактировать {% else %} Создать {% endif %}категорию</h5>
+            <form method="post" novalidate class="form-contact">
+                {% csrf_token %}
+                <div id="div_id_name" class="mb-3">
+                    <label for="id_name" class="form-label requiredField">Категория: </label>
+                    <input type="text" name="name" maxlength="255" required="" id="id_name" class="textinput form-control" {% if category %} value="{{form.name.value}}" {% endif %}>
+                </div>
 
-                    {% if field.errors %}
-                    <small class="error">{{field.errors|striptags}}</small>
-                    {% endif %}
+                {% for field in form %}
 
-                    {% endfor %}
+                {% if field.errors %}
+                <small class="error">{{field.errors|striptags}}</small>
+                {% endif %}
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{% url 'categories' %}" class="btn btn-secondary">Отмена</a>
-                        <input type="submit" value="{% if category %} Изменить {% else %} Сохранить {% endif %}"
-                            class="btn btn-primary">
+                {% endfor %}
 
-                    </div>
-                </form>
-            </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'categories' %}" class="btn btn-secondary">Отмена</a>
+                    <input type="submit" value="{% if category %} Изменить {% else %} Сохранить {% endif %}"
+                        class="btn btn-primary">
+
+                </div>
+            </form>
         </div>
     </div>
 </div>

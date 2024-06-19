@@ -7,10 +7,10 @@
     <div class="sidebar-brand">Фильтр</div>
     <form method="get" class="filter-form">
         <div class="mb-3">
-            <select name="category"  id="id_category", class="form-select">
+            <select name="category" id="id_category" , class="form-select">
                 <option value="">Все категории</option>
                 {% for category in filter.form.fields.category.queryset %}
-                    <option value="{{category.id}}">{{category.name}}</option>
+                <option value="{{category.id}}">{{category.name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -19,7 +19,7 @@
             <select name="ordering" id="id_ordering" class="form-select">
                 <option value="">Все время</option>
                 {% for key, value in filter.form.fields.ordering.choices %}
-                    <option value="{{ key }}">{{ value }}</option>
+                <option value="{{ key }}">{{ value }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -31,42 +31,39 @@
     </form>
 </div>
 
-<!-- News Container -->
-<div class="news-container">
-
-    <!-- News Cards -->
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            {% if filter.qs %}
-            {% for post in filter.qs %}
-            <a href="{% url 'post' post.id %}" style="text-decoration: none;color: #666;">
-                <div class="card news-card">
-                    <img src="{{post.imagefile.url}}" class="card-img-top" alt="...">
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{post.title}}</h5>
-                        <p class="card-text">{{post.description}}</p>
-
-                        <p class="card-text d-flex mb-2">
-                            <small class="text-muted">Категория: {{post.category.name}}</small>
-                            <small class="ms-auto text-muted">
-                               Автор: {{post.user}}, {{post.created_at|date:"d M Y, H:i"}}
-                            </small>
-                        </p>
-                    </div>
-                    
-                </div>
-            </a>
-            {% endfor %}
-            {% else %}
+<!-- News Cards -->
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        {% if filter.qs %}
+        {% for post in filter.qs %}
+        <a href="{% url 'post' post.id %}" style="text-decoration: none;color: #666;">
             <div class="card news-card">
-                <h4 class="text-center">Постов нет! </h4>
+                <img src="{{post.imagefile.url}}" class="card-img-top" alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p class="card-text">{{post.description}}</p>
+
+                    <p class="card-text d-flex mb-2">
+                        <small class="text-muted">Категория: {{post.category.name}}</small>
+                        <small class="ms-auto text-muted">
+                            Автор: {{post.user}}, {{post.created_at|date:"d M Y, H:i"}}
+                        </small>
+                    </p>
+                </div>
+
             </div>
-            
-            {% endif %}
+        </a>
+        {% endfor %}
+        {% else %}
+        <div class="card news-card">
+            <h4 class="text-center"> Посты не найдены! </h4>
         </div>
+
+        {% endif %}
     </div>
 </div>
+
 
 <!-- Filter Button (Кнопка для показа фильтра на маленьких экранах) -->
 <button class="btn btn-primary filter-btn" id="filterButton">Показать фильтр</button>

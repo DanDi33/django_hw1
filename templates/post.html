@@ -2,20 +2,17 @@
 {% load static %}
 {% block content %}
 
-<!-- News Container -->
-<div class="news-container">
-    <!-- News Cards -->
-    <div class="row justify-content-center">
-        <div class="col-md-11">
-            <div class="card m-auto ">
-                <div class="card-body">
-                    <h2 class="card-title  text-center">{{post.title}}</h2>
-                    <p class="card-text">{{post.post}}</p>
-                    <p class="card-text d-flex">
-                        <small class="text-muted me-auto ">Категория: {{post.category}}</small>
-                        <small class="text-muted">Автор: {{post.user}}, {{post.created_at|date:"d M Y, H:i"}}</small>
-                    </p>
-                </div>
+<!-- News Cards -->
+<div class="row justify-content-center">
+    <div class="col-md-11">
+        <div class="card m-auto ">
+            <div class="card-body">
+                <h2 class="card-title  text-center">{{post.title}}</h2>
+                <p class="card-text">{{post.post}}</p>
+                <p class="card-text d-flex">
+                    <small class="text-muted me-auto ">Категория: {{post.category}}</small>
+                    <small class="text-muted">Автор: {{post.user}}, {{post.created_at|date:"d M Y, H:i"}}</small>
+                </p>
             </div>
         </div>
     </div>
